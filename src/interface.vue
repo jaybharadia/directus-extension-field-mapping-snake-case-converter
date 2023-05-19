@@ -1,9 +1,13 @@
 <template>
-  <div>
-    Value is {{ value }} Snakevcase value {{ snakeCaseValue }} Related Field
-    {{ relatedField }}
-  </div>
-  <VInput :model-value="value" @update:model-value="handleChange($event)" />
+  <!-- Derived from label field  -->
+  <VInput :model-value="snakeCaseValue" :disabled="true" />
+
+  <!-- Editable  -->
+  <!-- <VInput
+    :model-value="value"
+    @update:model-value="handleChange($event)"
+    v-if="isEditable"
+  /> -->
 </template>
 
 <script>
@@ -17,33 +21,17 @@ export default {
   data() {
     return {};
   },
-  watch: {
-    // values :  {
-    //   handler( newValue ){
-    //     if( this.relatedField &&  this.values[relatedField])
-    //   },
-    //   immediate : false,
-    //   console.log("🚀 ~ file: interface.vue:29 ~ newValue:", newValue);
-    // },
-  },
+  created() {},
   computed: {
     snakeCaseValue() {
-      if (this.relatedField) {
-        return snakeCase(this.values[this.relatedField]);
-      } else return snakeCase(this.value);
+      return snakeCase(this.values[this.relatedField]);
     },
   },
   methods: {
-    // handleInput(input) {
-    //   console.log("🚀 ~ file: interface.vue:29 ~ handleInput ~ input:", input);
-    //   this.value = input;
-    // },
     handleChange(input) {
-      this.$emit("input", this.snakeCaseValue);
+      this.$emit("input", snakeCase(input));
     },
   },
   emits: ["input"],
-  // setup(props, { emit }) {
-  // },
 };
 </script>
