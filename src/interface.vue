@@ -1,6 +1,7 @@
 <template>
   <!-- Derived from label field  -->
-  <VInput :model-value="snakeCaseValue" :disabled="true" />
+  <VInput :model-value="snakeCaseValue" :disabled="true" v-if="relatedField" />
+  <p v-else>Please select Related Field</p>
 
   <!-- Editable  -->
   <!-- <VInput
@@ -24,12 +25,19 @@ export default {
   created() {},
   computed: {
     snakeCaseValue() {
-      return snakeCase(this.values[this.relatedField]);
+      if (this.relatedField) return snakeCase(this.values[this.relatedField]);
+      else return "";
+    },
+  },
+  watch: {
+    snakeCaseValue(newValue) {
+      this.$emit("input", newValue);
     },
   },
   methods: {
     handleChange(input) {
-      this.$emit("input", snakeCase(input));
+      console.log("inside handle change", input);
+      this.$emit("input", input);
     },
   },
   emits: ["input"],
